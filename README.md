@@ -68,5 +68,5 @@ on the puppeteer instance before returning it to the pool.
 
 ## Credits
 
-This module is forked from (phantom-pool)[https://github.com/binded/phantom-pool] and all phantom related code
+This module is forked from [phantom-pool](https://github.com/binded/phantom-pool) and all phantom related code
 has been sustituted with puppeteer.
