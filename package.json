@@ -1,7 +1,7 @@
 {
-  "name": "phantom-pool",
-  "version": "1.2.2",
-  "description": "Resource pool for Node.js PhantomJS",
+  "name": "puppeteer-pool",
+  "version": "1.0.0",
+  "description": "Resource pool for Node.js Puppeteer",
   "main": "./lib/index.js",
   "directories": {
     "test": "test"
@@ -18,21 +18,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/binded/phantom-pool.git"
+    "url": "git+https://github.com/latesh/puppeteer-pool.git"
   },
   "keywords": [
-    "phantom",
-    "phantomjs",
+    "puppeteer",
     "generic-pool",
     "pool",
     "pooling"
   ],
-  "author": "Oli Lalonde <olalonde@gmail.com> (https://syskall.com/)",
+  "author": "Latesh Galia <lateshg@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/binded/phantom-pool/issues"
+    "url": "https://github.com/latesh/puppeteer-pool/issues"
   },
-  "homepage": "https://github.com/binded/phantom-pool#readme",
+  "homepage": "https://github.com/latesh/puppeteer-pool#readme",
   "engines": {
     "node": ">=6"
   },
@@ -65,6 +64,6 @@
   "dependencies": {
     "debug": "^2.3.3",
     "generic-pool": "^3.1.4",
-    "phantom": "^3.2.0"
+    "puppeteer": "^0.10.2"
   }
 }

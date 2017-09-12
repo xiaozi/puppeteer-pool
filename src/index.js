@@ -1,10 +1,10 @@
-import phantom from 'phantom'
+import puppeteer from 'puppeteer'
 import genericPool from 'generic-pool'
 
 // import initDebug from 'debug'
 // const debug = initDebug('phantom-pool')
 
-const initPhantomPool = ({
+const initPuppeteerPool = ({
   max = 10,
   // optional. if you set this, make sure to drain() (see step 3)
   min = 2,
@@ -13,18 +13,18 @@ const initPhantomPool = ({
   // specifies the maximum number of times a resource can be reused before being destroyed
   maxUses = 50,
   testOnBorrow = true,
-  phantomArgs = [],
+  puppeteerArgs = [],
   validator = () => Promise.resolve(true),
   ...otherConfig
 } = {}) => {
   // TODO: randomly destroy old instances to avoid resource leak?
   const factory = {
-    create: () => phantom.create(...phantomArgs)
+    create: () => puppeteer.launch(...puppeteerArgs)
       .then(instance => {
         instance.useCount = 0
         return instance
       }),
-    destroy: (instance) => instance.exit(),
+    destroy: (instance) => instance.close(),
     validate: (instance) => validator(instance)
       .then(valid => Promise.resolve(valid && (maxUses <= 0 || instance.useCount < maxUses))),
   }
@@ -63,6 +63,6 @@ const initPhantomPool = ({
 
 // To avoid breaking backwards compatibility
 // https://github.com/binded/phantom-pool/issues/12
-initPhantomPool.default = initPhantomPool
+initPuppeteerPool.default = initPuppeteerPool
 
-export default initPhantomPool
+export default initPuppeteerPool
