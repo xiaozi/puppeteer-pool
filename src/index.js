@@ -4,14 +4,6 @@ import initDebug from 'debug'
 const debug = initDebug('puppeteer-pool')
 let regeneratorRuntime =  require("regenerator-runtime")
 
-const ppt = {
-  create: async function(args) {
-    const browser = await puppeteer.launch(...args)
-    const page = await browser.newPage()
-    return {page, browser, useCount: 0}
-  }
-}
-
 const initPuppeteerPool = ({
   max = 10,
   // optional. if you set this, make sure to drain() (see step 3)
@@ -27,13 +19,12 @@ const initPuppeteerPool = ({
 } = {}) => {
   // TODO: randomly destroy old instances to avoid resource leak?
   const factory = {
-    create: () => {
-      return ppt.create(puppeteerArgs).then(instance => {
-        return instance
-      })
-    },
-    destroy: ({browser}) => {
-      browser.close()
+    create: () => puppeteer.launch(...puppeteerArgs).then(instance => {
+      instance.useCount = 0
+      return instance
+    }),
+    destroy: (instance) => {
+      instance.close()
     },
     validate: (instance) => {
       return validator(instance)
