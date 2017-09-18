@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer'
 import genericPool from 'generic-pool'
 import initDebug from 'debug'
 const debug = initDebug('puppeteer-pool')
+let regeneratorRuntime = require('regenerator-runtime')
 
 const initPuppeteerPool = ({
   max = 10,
@@ -18,11 +19,20 @@ const initPuppeteerPool = ({
 } = {}) => {
   // TODO: randomly destroy old instances to avoid resource leak?
   const factory = {
-    create: () => puppeteer.launch(...puppeteerArgs).then(instance => {
-      instance.useCount = 0
-      return instance
+    create: () => puppeteer.launch(...puppeteerArgs).then(async instance => {
+      const page = await instance.newPage()
+      await page.setRequestInterceptionEnabled(true)
+      debug('new page from browser.newPage()')
+      return {
+        instance,
+        useCount: 0,
+        page
+      }
     }),
-    destroy: (instance) => {
+    destroy: ({page, instance}) => {
+      debug('page.close()')
+      page.close()
+      debug('instance.close()')
       instance.close()
     },
     validate: (instance) => {
@@ -41,6 +51,7 @@ const initPuppeteerPool = ({
   const genericAcquire = pool.acquire.bind(pool)
   pool.acquire = () => genericAcquire().then(instance => {
     instance.useCount += 1
+    debug('incremented useCount:', instance.useCount)
     return instance
   })
   pool.use = (fn) => {
