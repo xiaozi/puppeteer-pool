@@ -36,19 +36,19 @@
     "node": ">=6"
   },
   "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-cli": "^7.12.10",
+    "babel-plugin-add-module-exports": "^1.0.4",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
-    "babel-tape-runner": "^2.0.1",
+    "babel-tape-runner": "^3.0.0",
     "blue-tape": "^1.0.0",
-    "cz-conventional-changelog": "^1.2.0",
-    "eslint": "^4.1.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.18.0",
     "eslint-config-blockai": "^1.0.3",
-    "nodemon": "^1.11.0",
-    "rimraf": "^2.5.4",
-    "semantic-release": "^6.3.2"
+    "nodemon": "^2.0.7",
+    "rimraf": "^3.0.2",
+    "semantic-release": "^17.3.7"
   },
   "release": {
     "debug": false,

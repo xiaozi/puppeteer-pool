@@ -2,19 +2,11 @@
 
 Resource pool based on [generic-pool](https://github.com/coopernurse/node-pool) for [Puppeteer](https://github.com/GoogleChrome/puppeteer).
 
-Creating new phantom instances with `puppeteer.launch()` can be slow. If
+Creating new puppeteer instances with `puppeteer.launch()` can be slow. If
 you are frequently creating new instances and destroying them, as a
 result of HTTP requests for example, this module can help by keeping a
 pool of puppeteer instances alive and making it easy to re-use them across
 requests.
-
-## Install
-
-```bash
-npm install --save puppeteer-pool
-```
-
-Requires Node v6+
 
 ## Usage
 
@@ -69,5 +61,4 @@ on the puppeteer instance before returning it to the pool.
 
 ## Credits
 
-This module is forked from [phantom-pool](https://github.com/binded/phantom-pool) and all phantom related code
-has been sustituted with puppeteer.
+This module is forked from [puppeteer-pool](https://github.com/latesh/phantom-pool) and all dependencies has been updated.
