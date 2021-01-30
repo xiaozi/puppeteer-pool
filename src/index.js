@@ -18,7 +18,7 @@ const initPuppeteerPool = ({
   const cachedInstances = {};
   const factory = {
     create: () =>
-      puppeteer.launch(...puppeteerArgs).then(instance => {
+      puppeteer.launch({...puppeteerArgs}).then(instance => {
         const pid = instance.process().pid;
         cachedInstances[pid] = {
           useCount: 0,
