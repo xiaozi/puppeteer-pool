@@ -26,7 +26,7 @@ const pool = createPuppeteerPool({
   // validate resource before borrowing; required for `maxUses and `validator`
   testOnBorrow: true, // default
   // For all opts, see opts at https://github.com/coopernurse/node-pool#createpool
-  puppeteerArgs: []
+  puppeteerArgs: {}
 })
 
 // Automatically acquires a puppeteer instance and releases it back to the
