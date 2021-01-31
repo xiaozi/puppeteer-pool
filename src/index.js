@@ -15,29 +15,35 @@ const initPuppeteerPool = ({
   ...otherConfig
 } = {}) => {
   // TODO: randomly destroy old instances to avoid resource leak?
-  const cachedInstances = {};
+  const instanceMetas = {};
   const factory = {
     create: () =>
       puppeteer.launch({...puppeteerArgs}).then(instance => {
         const pid = instance.process().pid;
-        cachedInstances[pid] = {
+        instanceMetas[pid] = {
           useCount: 0,
-          valid: true
+          valid: true,
+          bornAt: new Date()
         };
+        instance.once("disconnected", (function() {
+          return function() {
+            instanceMetas[pid].valid = false;
+          };
+        })(pid));
         return instance;
       }),
     destroy: instance => {
       const pid = instance.process().pid;
-      delete cachedInstances[pid];
+      delete instanceMetas[pid];
       instance.close();
     },
     validate: instance => {
       return validator(instance).then(valid => {
         const pid = instance.process().pid;
-        const useCount = cachedInstances[pid].useCount;
+        const useCount = instanceMetas[pid].useCount;
         return Promise.resolve(
           valid &&
-            cachedInstances[pid].valid &&
+            instanceMetas[pid].valid &&
             (maxUses <= 0 || useCount < maxUses)
         );
       });
@@ -56,7 +62,7 @@ const initPuppeteerPool = ({
   pool.acquire = () =>
     genericAcquire().then(instance => {
       const pid = instance.process().pid;
-      cachedInstances[pid].useCount += 1;
+      instanceMetas[pid].useCount += 1;
       return instance;
     });
   pool.use = fn => {
@@ -81,7 +87,7 @@ const initPuppeteerPool = ({
   };
   pool.invalidate = instance => {
     const pid = instance.process().pid;
-    cachedInstances[pid].valid = false;
+    instanceMetas[pid].valid = false;
   };
 
   return pool;
