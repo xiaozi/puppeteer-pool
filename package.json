@@ -1,6 +1,6 @@
 {
   "name": "puppeteer-pool",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Resource pool for Node.js Puppeteer",
   "main": "./lib/index.js",
   "directories": {
